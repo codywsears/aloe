@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Droppable } from 'react-beautiful-dnd';
+import { getListStyle } from '../utils/dragAndDropUtils';
 
 class Bucket extends Component {
     render() {
@@ -7,10 +9,16 @@ class Bucket extends Component {
         let css = `bucket__name--container bucket__backgroundcolor--${color}`;
 
         return (
-            <div className={css}>
-                <div className="bucket__name">{name}</div>
-                {this.children}
-            </div>
+            <Droppable droppableId={name}>
+                {(provided, snapshot) => (
+                    <div 
+                        ref={provided.innerRef}
+                        style={getListStyle(snapshot.isDraggingOver)}>
+                        <div className="bucket__name">{name}</div>
+                        {this.props.children}
+                    </div>
+                    )}
+            </Droppable>
           );
     }
 }
