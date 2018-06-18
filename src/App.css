@@ -26,3 +26,26 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.bucket__container {
+  width: 100%;
+  height: 100%;
+}
+
+.bucket__name--container {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 16px;
+}
+
+.bucket__backgroundcolor--0 {
+  background-color: red;
+}
+
+.bucket__backgroundcolor--1 {
+  background-color: blue;
+}
+
+.bucket__backgroundcolor--2 {
+  background-color: green;
+}

@@ -1,0 +1,6 @@
+{
+    "buckets": [
+        {"id": 1, "name": "bucket1", "resources": []},
+        {"id": 2, "name": "bucket2", "resources": []}
+    ]
+}
