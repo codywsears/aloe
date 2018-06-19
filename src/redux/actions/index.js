@@ -22,3 +22,26 @@ export const BUCKET = createRequestTypes('BUCKET');
 export function getBucketsAction() {
     return {type: BUCKET[FETCH][REQUEST]};
 }
+
+export function reorderBucketAction(bucketId, sourceIdx, destIdx) {
+    return {
+        type: 'BUCKET_REORDER',
+        data: {
+            bucketId,
+            sourceIdx,
+            destIdx
+        }
+    }
+}
+
+export function moveResourceAction(sourceBucketId, destBucketId, sourceIndex, destIndex) {
+    return {
+        type: 'RESOURCE_MOVE',
+        data: {
+            sourceBucketId,
+            destBucketId,
+            sourceIndex,
+            destIndex
+        }
+    }
+}

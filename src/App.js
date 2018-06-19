@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.png';
 import './App.css';
-import Resource from './components/Resource';
 import BucketContainer from './components/BucketContainer';
 
 class App extends Component {

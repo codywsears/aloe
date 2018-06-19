@@ -4,12 +4,12 @@ import { getListStyle } from '../utils/dragAndDropUtils';
 
 class Bucket extends Component {
     render() {
-        let { color, name } = this.props;
+        let { color, name, id } = this.props;
         
         let css = `bucket__name--container bucket__backgroundcolor--${color}`;
 
         return (
-            <Droppable droppableId={name}>
+            <Droppable droppableId={id}>
                 {(provided, snapshot) => (
                     <div 
                         ref={provided.innerRef}

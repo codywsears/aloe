@@ -1,6 +1,20 @@
 {
-    "buckets": [
-        {"id": 1, "name": "bucket1", "resources": []},
-        {"id": 2, "name": "bucket2", "resources": []}
-    ]
+    "buckets": {
+        "1": {"id": "1", "name": "bucket1", "resources": [
+            {"id": "res-1", "name": "resource1"},
+            {"id": "res-2", "name": "resource2"},
+            {"id": "res-3", "name": "resource3"},
+            {"id": "res-4", "name": "resource4"},
+            {"id": "res-5", "name": "resource5"},
+            {"id": "res-6", "name": "resource6"}
+        ]},
+        "2": {"id": "2", "name": "bucket2", "resources": [
+            {"id": "res-10", "name": "resource10"},
+            {"id": "res-20", "name": "resource20"},
+            {"id": "res-30", "name": "resource30"},
+            {"id": "res-40", "name": "resource40"},
+            {"id": "res-50", "name": "resource50"},
+            {"id": "res-60", "name": "resource60"}
+        ]}
+    }
 }
