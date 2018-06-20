@@ -1,13 +1,28 @@
 import React, { Component } from 'react';
-import { getBucketsAction, reorderBucketAction, moveResourceAction } from '../redux/actions';
+import { getBucketsAction, reorderBucketAction, moveResourceAction, getResourcesAction } from '../redux/actions';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
+import { move, reorder } from '../utils/dragAndDropUtils';
 import Bucket from './Bucket';
 import Resource from './Resource';
 
 class BucketContainer extends Component {
+    state = {
+        resourcesInitialized: false
+    }
+
     componentDidMount() {
-        this.props.getBuckets();
+        this.props.getBuckets(this.props.tripId);
+    }
+
+    componentDidUpdate() {
+        let { buckets } = this.props;
+        if (!this.state.resourcesInitialized && buckets && Object.keys(buckets).length > 0) {
+            Object.keys(buckets).forEach((bucketId) => {
+                this.props.getResources(bucketId);
+            });
+            this.setState({resourcesInitialized: true})
+        }
     }
 
     onDragEnd = result => {
@@ -19,14 +34,19 @@ class BucketContainer extends Component {
         }
 
         if (source.droppableId === destination.droppableId) {
-            this.props.reorderBucket(source.droppableId, source.index, destination.index);
+            let reorderResult = reorder(this.props.resources[source.droppableId], source.index, destination.index);
+            this.props.reorderBucket(source.droppableId, reorderResult);
         } else {
-            this.props.moveResource(source.droppableId, destination.droppableId, source.index, destination.index);
+            let sourceId = source.droppableId;
+            let destId = destination.droppableId;
+            let moveResult = move(this.props.resources[source.droppableId], this.props.resources[destination.droppableId], 
+                sourceId, destId, source.index, destination.index);
+            this.props.moveResource(moveResult, sourceId, destId);
         }
     };
 
     render() {
-        let { buckets } = this.props; 
+        let { buckets, resources } = this.props; 
         return (
             <div className="bucket__container">
                 <DragDropContext onDragEnd={this.onDragEnd}>
@@ -35,8 +55,8 @@ class BucketContainer extends Component {
                         return (
                             <Bucket key={idx} id={bucket.id} name={bucket.name} color={idx}>
                                 {
-                                    Object.keys(bucket.resources).map((resourceKey, index) => {
-                                        let resource = bucket.resources[resourceKey];
+                                    resources && resources[bucket.id] && Object.keys(resources[bucket.id]).map((resourceKey, index) => {
+                                        let resource = resources[bucket.id][resourceKey];
                                         return (
                                             <Resource key={index} name={resource.name} index={index} id={resource.id}/>
                                         );
@@ -53,17 +73,16 @@ class BucketContainer extends Component {
  
 const mapStateToProps = state => {
     return {
-        buckets: state.buckets
+        buckets: state.buckets,
+        resources: state.resources
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getBuckets: () => {dispatch(getBucketsAction())},
-        reorderBucket: (bucketId, sourceIdx, destIdx) => {dispatch(reorderBucketAction(bucketId, sourceIdx, destIdx))},
-        moveResource: (srcBucketId, destBucketId, sourceIdx, destIdx) => 
-            {dispatch(moveResourceAction(srcBucketId, destBucketId, sourceIdx, destIdx))}
-    }
+const mapDispatchToProps = {
+    getBuckets: getBucketsAction,
+    reorderBucket: reorderBucketAction,
+    moveResource: moveResourceAction,
+    getResources: getResourcesAction
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BucketContainer);

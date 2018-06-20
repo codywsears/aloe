@@ -5,9 +5,10 @@ export const FAILURE = 'FAILURE';
 export const FETCH = 'FETCH';
 export const CREATE = 'CREATE';
 export const DELETE = 'DELETE';
+export const UPDATE = 'UPDATE';
 
 function createRequestTypes(base) {
-    return [FETCH, CREATE, DELETE].reduce((obj, requestType) => {
+    return [FETCH, UPDATE, CREATE, DELETE].reduce((obj, requestType) => {
         obj[requestType] = [REQUEST, SUCCESS, FAILURE].reduce((acc, eventType) => {
             acc[eventType] = `${base}_${requestType}_${eventType}`;
             return acc;
@@ -18,30 +19,33 @@ function createRequestTypes(base) {
 
 //Create action name constants (i.e. BUCKET_FETCH_SUCCESS)
 export const BUCKET = createRequestTypes('BUCKET');
+export const RESOURCE = createRequestTypes('RESOURCE');
 
-export function getBucketsAction() {
-    return {type: BUCKET[FETCH][REQUEST]};
+export function getBucketsAction(tripId) {
+    return {type: BUCKET[FETCH][REQUEST], data: {tripId}};
 }
 
-export function reorderBucketAction(bucketId, sourceIdx, destIdx) {
+export function getResourcesAction(bucketId) {
+    return {type: RESOURCE[FETCH][REQUEST], data: {bucketId}};
+}
+
+export function reorderBucketAction(bucketId, reorderResult) {
     return {
         type: 'BUCKET_REORDER',
         data: {
             bucketId,
-            sourceIdx,
-            destIdx
+            reorderResult
         }
     }
 }
 
-export function moveResourceAction(sourceBucketId, destBucketId, sourceIndex, destIndex) {
+export function moveResourceAction(result, sourceBucketId, destBucketId) {
     return {
         type: 'RESOURCE_MOVE',
         data: {
             sourceBucketId,
             destBucketId,
-            sourceIndex,
-            destIndex
+            result
         }
     }
 }

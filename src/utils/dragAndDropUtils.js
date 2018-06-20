@@ -1,25 +1,30 @@
+function keysToObj(keys, originObj) {
+    return keys.reduce((acc, key) => {acc[key] = originObj[key]; return acc;}, {})
+}
+
 // Function to help reorder a list when dropped in different position
 export const reorder = (list, startIndex, endIndex) => {
-    const result = list.slice(0);
+    let listTemp = Object.keys(list);
+    const result = listTemp.slice(0);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
 
-    return result;
+    return keysToObj(result, list);
 };
 
 /**
  * Moves an item from one list to another list.
  */
 export const move = (source, destination, srcId, destId, srcIdx, destIdx) => {
-    const sourceClone = source.slice(0);
-    const destClone = destination.slice(0);
-    const [removed] = sourceClone.splice(srcIdx, 1);
+    let sourceTemp = Object.keys(source);
+    let destTemp = Object.keys(destination);
+    const [removed] = sourceTemp.splice(srcIdx, 1);
 
-    destClone.splice(destIdx, 0, removed);
+    destTemp.splice(destIdx, 0, removed);
 
     const result = {};
-    result[srcId] = sourceClone;
-    result[destId] = destClone;
+    result[srcId] = keysToObj(sourceTemp, source);
+    result[destId] = keysToObj(destTemp, { ...destination, ...source });
 
     return result;
 };

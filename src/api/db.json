@@ -1,20 +1,29 @@
 {
+    "trips": {
+        "trip1": {"id": "trip1", "name": "test trip"}
+    },
     "buckets": {
-        "1": {"id": "1", "name": "bucket1", "resources": [
-            {"id": "res-1", "name": "resource1"},
-            {"id": "res-2", "name": "resource2"},
-            {"id": "res-3", "name": "resource3"},
-            {"id": "res-4", "name": "resource4"},
-            {"id": "res-5", "name": "resource5"},
-            {"id": "res-6", "name": "resource6"}
-        ]},
-        "2": {"id": "2", "name": "bucket2", "resources": [
-            {"id": "res-10", "name": "resource10"},
-            {"id": "res-20", "name": "resource20"},
-            {"id": "res-30", "name": "resource30"},
-            {"id": "res-40", "name": "resource40"},
-            {"id": "res-50", "name": "resource50"},
-            {"id": "res-60", "name": "resource60"}
-        ]}
+        "trip1": {
+            "1": { "id": "1", "name": "bucket1" },
+            "2": { "id": "2", "name": "bucket2"}
+        }
+    },
+    "resources": {
+        "1": {
+            "res-1": {"id": "res-1", "name": "resource1"},
+            "res-2": {"id": "res-2", "name": "resource2"},
+            "res-3": {"id": "res-3", "name": "resource3"},
+            "res-4": {"id": "res-4", "name": "resource4"},
+            "res-5": {"id": "res-5", "name": "resource5"},
+            "res-6": {"id": "res-6", "name": "resource6"}
+        },
+        "2": {
+            "res-10": {"id": "res-10", "name": "resource10"},
+            "res-20": {"id": "res-20", "name": "resource20"},
+            "res-30": {"id": "res-30", "name": "resource30"},
+            "res-40": {"id": "res-40", "name": "resource40"},
+            "res-50": {"id": "res-50", "name": "resource50"},
+            "res-60": {"id": "res-60", "name": "resource60"}
+        }
     }
 }
