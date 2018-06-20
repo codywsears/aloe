@@ -14,6 +14,13 @@ function set(url, toSet) {
     return window.firebase.database().ref(url).set(toSet);
 }
 
+function create(url, toPush) {
+    let newPushedRef = window.firebase.database().ref(url).push();
+    toPush['id'] = newPushedRef.key;
+    newPushedRef.set(toPush);
+    return toPush;
+}
+
 export function *setHelper(action, type, setUrl, toSet) {
     try {
         const result = yield call(set, setUrl, toSet);
@@ -31,6 +38,16 @@ export function *fetchHelper(action, type, getUrl, payloadShape = (result) => re
         yield put({type: type.FETCH.SUCCESS, payload: payloadShape(result)});
     } catch (err) {
         yield put({type: type.FETCH.FAILURE})
+    }
+}
+
+export function *createHelper(action, type, createUrl, toCreate) {
+    try {
+        const result = yield call(create, createUrl, toCreate);
+
+        yield put({type: type.CREATE.SUCCESS, payload: {[result.id]: result}});
+    } catch (err) {
+        yield put({type: type.CREATE.FAILURE})
     }
 }
 

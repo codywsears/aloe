@@ -7,7 +7,7 @@ const resourcesUrl = `${API_URL_BASE}/resources`;
 // Sagas
 export function *getResources(action) {
     const payloadShape = (result) => ({
-        [action.data.bucketId]: result
+        [action.data.bucketId]: result ? result : {}
     })
     yield fetchHelper(action, RESOURCE, resourcesUrl + '/' + action.data.bucketId, payloadShape);
 }

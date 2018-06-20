@@ -25,6 +25,10 @@ export function getBucketsAction(tripId) {
     return {type: BUCKET[FETCH][REQUEST], data: {tripId}};
 }
 
+export function createBucketAction(tripId, bucketName, resolve, reject) {
+    return {type: BUCKET[CREATE][REQUEST], data: {tripId, bucketName}, promise: {resolve, reject}};
+}
+
 export function getResourcesAction(bucketId) {
     return {type: RESOURCE[FETCH][REQUEST], data: {bucketId}};
 }
@@ -47,5 +51,11 @@ export function moveResourceAction(result, sourceBucketId, destBucketId) {
             destBucketId,
             result
         }
+    }
+}
+
+export function toggleAddBucketModal() {
+    return {
+        type: 'TOGGLE_ADDBUCKET_MODAL'
     }
 }

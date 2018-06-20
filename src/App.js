@@ -3,6 +3,7 @@ import logo from './logo.png';
 import './App.css';
 import BucketContainer from './components/BucketContainer';
 import CreateTripContainer from './components/CreateTripContainer';
+import AddBucket from './components/AddBucket';
 
 class App extends Component {
   // componentDidMount() {
@@ -18,7 +19,13 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to Aloe</h1>
         </header>
-        {params && params['tripId'] ? <BucketContainer tripId={params['tripId']}/> : <CreateTripContainer/>}
+        {params && params['tripId'] ? (
+          <div>
+            <AddBucket tripId={params['tripId']}/>
+            <BucketContainer tripId={params['tripId']}/> 
+          </div>
+        ) : 
+          <CreateTripContainer/>}
       </div>
     );
   }

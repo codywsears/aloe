@@ -1,5 +1,4 @@
 import { BUCKET, SUCCESS, CREATE, REQUEST, FETCH  } from '../actions'
-import { reorder, move } from '../../utils/dragAndDropUtils';
 const initialBuckets = {};
 
 /** 
@@ -7,10 +6,10 @@ const initialBuckets = {};
  */
 export function buckets(state = initialBuckets, action) {
     switch(action.type) {
-        case BUCKET[CREATE][REQUEST]: 
+        case BUCKET[CREATE][SUCCESS]: 
             return {
-                [action.id]: {loading: true, error: null, resources: []},
-                ...state
+                ...state,
+                ...action.payload
             };
         case BUCKET[FETCH][SUCCESS]:
             return {
