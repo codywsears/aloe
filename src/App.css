@@ -31,7 +31,9 @@
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-content: space-around;
+  flex-wrap: wrap;
 }
 
 .bucket__name--container {
@@ -55,7 +57,4 @@
 .addbucket_button {
   width: 100%;
   height: 60px;
-  background-color: #339933;
-  font-size: 1.5em;
-  color: white;
 }

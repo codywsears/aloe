@@ -4,13 +4,19 @@ import './App.css';
 import BucketContainer from './components/BucketContainer';
 import CreateTripContainer from './components/CreateTripContainer';
 import AddBucket from './components/AddBucket';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
+import teal from '@material-ui/core/colors/teal';
+import lightGreen from '@material-ui/core/colors/lightGreen';
+
+//Material UI Theme https://material-ui.com/style/color/
+const theme = createMuiTheme({
+  palette: {
+    primary: teal,
+    secondary: lightGreen
+  },
+});
 
 class App extends Component {
-  // componentDidMount() {
-  //   window.firebase.database().ref('/data/buckets/trip1Id').once('value').then((snapshot) => {
-  //     console.log(snapshot.val());
-  // })
-  // }
   render() {
     let { params } = this.props.match;
     return (
@@ -19,13 +25,15 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to Aloe</h1>
         </header>
-        {params && params['tripId'] ? (
-          <div>
-            <AddBucket tripId={params['tripId']}/>
-            <BucketContainer tripId={params['tripId']}/> 
-          </div>
-        ) : 
-          <CreateTripContainer/>}
+        <MuiThemeProvider theme={theme}>
+          {params && params['tripId'] ? (
+            <div>
+              <AddBucket tripId={params['tripId']}/>
+              <BucketContainer tripId={params['tripId']}/> 
+            </div>
+          ) : 
+            <CreateTripContainer/>}
+        </MuiThemeProvider>
       </div>
     );
   }

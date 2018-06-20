@@ -1,4 +1,5 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 // import PropTypes from 'prop-types';
 
 class Modal extends React.Component {
@@ -25,27 +26,16 @@ class Modal extends React.Component {
       backgroundColor: '#fff',
       borderRadius: 5,
       maxWidth: 500,
-      minHeight: 300,
       margin: '0 auto',
-      padding: 30
+      transform: `translate(0%, 100%)`,
+      padding: 30,
+      zIndex: 999
     };
 
-    const titleStyle = {
-        color: "black",
-        width: "90%"
-    }
-
-    const closeStyle = {
-        width: "10%"
-    }
-
     return (
-      <div className="backdrop" style={backdropStyle}>
-        <div className="modal" style={modalStyle}>
-            <span style={titleStyle}>{title}</span>
-            <span style={closeStyle}>
-                <button onClick={onClose}>X</button>
-            </span>
+      <div className="backdrop" style={backdropStyle} onClick={onClose}>
+        <div className="modal" style={modalStyle} onClick={event => event.stopPropagation()}>
+            <Typography variant="title">{title}</Typography>
           {this.props.children}
 
           {/* <div className="footer">

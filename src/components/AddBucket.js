@@ -3,6 +3,7 @@ import { createBucketAction, toggleAddBucketModal } from '../redux/actions';
 import { connect } from 'react-redux';
 import Modal from './shared/Modal';
 import AddBucketForm from './AddBucketForm';
+import Button from '@material-ui/core/Button';
 
 class AddBucket extends Component {
     submitBucket = values => {
@@ -25,12 +26,20 @@ class AddBucket extends Component {
     render() { 
         return (<div>
                 {
-                    this.props.showModal ? 
-                    <Modal show={this.props.showModal} title="Add Bucket" onClose={this.closeModal}>
-                        <AddBucketForm onSubmit={this.submitBucket}/>
-                    </Modal>
-                    :
-                    <button onClick={this.showModal} className="addbucket_button">Add Bucket</button>
+                    <div>
+                        {/* {
+                            this.props.showModal ?
+                            <Modal show={this.props.showModal} title="Add Bucket" onClose={this.closeModal}>
+                                <AddBucketForm onSubmit={this.submitBucket}/>
+                            </Modal>
+                            :
+                            <Button variant="contained" color="primary" onClick={this.showModal} className="addbucket_button">Add Bucket</Button>
+                        } */}
+                            <Modal show={this.props.showModal} title="Add Bucket" onClose={this.closeModal}>
+                                <AddBucketForm onSubmit={this.submitBucket}/>
+                            </Modal>
+                            <Button variant="contained" color="primary" onClick={this.showModal} className="addbucket_button">Add Bucket</Button>
+                    </div>
                 }
             </div>);
     }
