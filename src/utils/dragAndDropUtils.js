@@ -1,3 +1,5 @@
+export const deleteBucketKey = 'delete';
+
 function keysToObj(keys, originObj) {
     return keys.reduce((acc, key) => {acc[key] = originObj[key]; return acc;}, {})
 }
@@ -15,7 +17,7 @@ export const reorder = (list, startIndex, endIndex) => {
 /**
  * Moves an item from one list to another list.
  */
-export const move = (source, destination, srcId, destId, srcIdx, destIdx) => {
+export const move = (source, destination = {}, srcId, destId, srcIdx, destIdx) => {
     let sourceTemp = Object.keys(source);
     let destTemp = Object.keys(destination);
     const [removed] = sourceTemp.splice(srcIdx, 1);
@@ -28,6 +30,3 @@ export const move = (source, destination, srcId, destId, srcIdx, destIdx) => {
 
     return result;
 };
-
-// CSS Helpers
-export const grid = 8;

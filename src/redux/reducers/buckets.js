@@ -1,4 +1,4 @@
-import { BUCKET, SUCCESS, CREATE, REQUEST, FETCH  } from '../actions'
+import { BUCKET, SUCCESS, CREATE, REQUEST, FETCH, DELETE } from '../actions'
 const initialBuckets = {};
 
 /** 
@@ -16,6 +16,12 @@ export function buckets(state = initialBuckets, action) {
                 ...state,
                 ...action.payload
             };
+        case BUCKET[DELETE][SUCCESS]:
+            let { bucketId } = action.payload;
+            delete state[bucketId];
+            return {
+                ...state
+            }
         default:
             return state
     }

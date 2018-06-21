@@ -11,7 +11,7 @@ class Resource extends React.Component {
         let color = isDragging ? colorObj[900] : colorObj[500];
 
         return {
-            background: color
+            background: `${color}aa`
         }
     }
 

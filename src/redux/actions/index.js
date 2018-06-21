@@ -25,8 +25,12 @@ export function getBucketsAction(tripId) {
     return {type: BUCKET[FETCH][REQUEST], data: {tripId}};
 }
 
-export function createBucketAction(tripId, bucketName, resolve, reject) {
-    return {type: BUCKET[CREATE][REQUEST], data: {tripId, bucketName}, promise: {resolve, reject}};
+export function createBucketAction(tripId, bucketName, color, resolve, reject) {
+    return {type: BUCKET[CREATE][REQUEST], data: {tripId, bucketName, color}, promise: {resolve, reject}};
+}
+
+export function deleteBucketAction(tripId, bucketId, extraResourcesToDelete) {
+    return {type: BUCKET[DELETE][REQUEST], data: {tripId, bucketId, extraResourcesToDelete}};
 }
 
 export function getResourcesAction(bucketId) {
@@ -35,6 +39,10 @@ export function getResourcesAction(bucketId) {
 
 export function createResourceAction(bucketId, resourceName, resolve, reject) {
     return {type: RESOURCE[CREATE][REQUEST], data: {bucketId, resourceName}, promise: {resolve, reject}};
+}
+
+export function deleteResourceAction(bucketId, resourceId) {
+    return {type: RESOURCE[DELETE][REQUEST], data: {bucketId, resourceId}};
 }
 
 export function createTemporaryResourceAction(bucketId) {

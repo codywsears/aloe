@@ -9,8 +9,8 @@ class TempResource extends React.Component {
         let { onSubmit, handleSubmit, classes, deleteTempResource, colorObj } = this.props;
         
         return (
-            <div className={classes.resource} style={{background: colorObj[500]}}>
-                <form onSubmit={handleSubmit(onSubmit)} style={{color: 'black'}}>
+            <div className={classes.resource} style={{background: `${colorObj[500]}aa`}}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <Field autoFocus name="resourceName" label="Resource Name" onBlur={deleteTempResource} 
                         placeholder="resource" margin="normal" component={renderTextField} type="text"/>
                 </form>

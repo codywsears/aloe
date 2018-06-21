@@ -4,11 +4,11 @@ import { grid } from '../utils/reactStyles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
+import { CardActionWrapper } from './CardActionWrapper';
 import { connect } from 'react-redux';
-import { toggleAddResourceModal, createResourceAction, createTemporaryResourceAction, addBucketColor } from '../redux/actions';
+import { toggleAddResourceModal, createResourceAction, createTemporaryResourceAction, addBucketColor, deleteBucketAction } from '../redux/actions';
 import { defaultColor } from '../utils/reactStyles';
+import { getOtherResources } from '../utils/bucketsUtil';
 
 const styles = theme => {
     let listStyle = {
@@ -17,13 +17,7 @@ const styles = theme => {
         height: "75%"
     };
     return {
-        draggingOver: {
-            ...listStyle,
-            background: theme.palette.secondary.dark
-        },
-        notDraggingOver: {
-            ...listStyle
-        },
+        listStyle,
         cardStyle: {
             marginTop: "16px"
         }
@@ -34,8 +28,10 @@ class Bucket extends Component {
     componentDidMount() {
         let { color } = this.props;
 
-        let colorObj = require(`@material-ui/core/colors/${color}`).default;
-        this.props.addBucketColor(color, colorObj);
+        if (color) {
+            let colorObj = require(`@material-ui/core/colors/${color}`).default;
+            this.props.addBucketColor(color, colorObj);
+        }
     }
 
     createResourceWrapper = (values) => {
@@ -45,6 +41,11 @@ class Bucket extends Component {
         return new Promise((resolve, reject) => {
             createResource(id, values.resourceName, resolve, reject);
         }).then(() => {this.props.toggleModal(id)});
+    }
+
+    getResourcesToDel = () => {
+        let { resources, id } = this.props;
+        return getOtherResources(resources, id);
     }
 
     getBackgroundStyle = () => {
@@ -57,28 +58,29 @@ class Bucket extends Component {
     }
 
     render() {
-        let { colorObj, name, id, classes, createTempResource } = this.props;
+        let { colorObj, name, id, classes, createTempResource, deleteBucket, tripId, includeActions } = this.props;
 
         return (
             <div>
                 <Card className={classes.cardStyle} style={this.getBackgroundStyle()}>
-                    <CardHeader title={name} 
+                    <CardHeader title={name}
                     action={
-                        <IconButton aria-label="Add Resource" style={{color: colorObj[800]}} onClick={() => createTempResource(id)}>
-                            <AddIcon/>
-                        </IconButton>
+                        includeActions ? 
+                        <CardActionWrapper colorObj={colorObj} deleteBucket={deleteBucket} tripId={tripId} id={id}
+                            createTempResource={createTempResource} getResourcesToDel={this.getResourcesToDel}/>
+                        : null
                     }/>
                     <Droppable droppableId={id}>
                         {(provided, snapshot) => (
                             <div 
                                 ref={provided.innerRef}
-                                className={snapshot.isDraggingOver ? classes.draggingOver : classes.notDraggingOver}>
+                                className={classes.listStyle}
+                                style={snapshot.isDraggingOver ? {background: colorObj[900]} : {}}>
                                 {this.props.children}
                             </div>
                             )}
                     </Droppable>
                 </Card>
-                {/* <AddResourceModal bucketId={id} createResource={this.createResourceWrapper}/> */}
             </div>
           );
     }
@@ -87,7 +89,8 @@ class Bucket extends Component {
 const mapStateToProps = (state, ownProps) => {
     let colorObj = state.ui.bucketColorPool[ownProps.color];
     return {
-        colorObj: colorObj ? colorObj : defaultColor
+        colorObj: colorObj ? colorObj : defaultColor,
+        resources: state.resources
     }
 }
 
@@ -95,7 +98,8 @@ const mapDispatchToProps = {
     toggleModal: toggleAddResourceModal,
     createResource: createResourceAction,
     createTempResource: createTemporaryResourceAction,
-    addBucketColor: addBucketColor
+    addBucketColor: addBucketColor,
+    deleteBucket: deleteBucketAction
 }
  
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Bucket));

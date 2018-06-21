@@ -1,7 +1,7 @@
 import { takeEvery, call, put, all } from 'redux-saga/effects';
 import { BUCKET, RESOURCE } from '../actions';
-import { getBuckets, createBucket } from './buckets';
-import { getResources, resourceMove, resourceReorder, createResource } from './resources';
+import { getBuckets, createBucket, deleteBucket } from './buckets';
+import { getResources, resourceMove, resourceReorder, createResource, deleteResource } from './resources';
 
 // API calls
 function get(url) {
@@ -19,6 +19,10 @@ function create(url, toPush) {
     toPush['id'] = newPushedRef.key;
     newPushedRef.set(toPush);
     return toPush;
+}
+
+export function deleteData(url) {
+    return window.firebase.database().ref(url).remove();
 }
 
 export function *setHelper(action, type, setUrl, toSet) {
@@ -58,6 +62,8 @@ export default function *rootSaga() {
         takeEvery(RESOURCE.FETCH.REQUEST, getResources),
         takeEvery('RESOURCE_MOVE', resourceMove),
         takeEvery('BUCKET_REORDER', resourceReorder),
-        takeEvery(RESOURCE.CREATE.REQUEST, createResource)
+        takeEvery(RESOURCE.CREATE.REQUEST, createResource),
+        takeEvery(BUCKET.DELETE.REQUEST, deleteBucket),
+        takeEvery(RESOURCE.DELETE.REQUEST, deleteResource)
     ])
 }

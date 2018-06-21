@@ -1,8 +1,9 @@
 import { API_URL_BASE } from '../../../api';
-import { fetchHelper, setHelper, createHelper } from '../index';
+import { fetchHelper, setHelper, createHelper, deleteData } from '../index';
 import { RESOURCE } from '../../actions';
+import { put, call } from 'redux-saga/effects';
 
-const resourcesUrl = `${API_URL_BASE}/resources`;
+export const resourcesUrl = `${API_URL_BASE}/resources`;
 
 // Sagas
 export function *getResources(action) {
@@ -18,6 +19,18 @@ export function *createResource(action) {
     let toCreate = {name: action.data.resourceName, originalBucketId: bucketId};
     yield createHelper(action, RESOURCE, url, toCreate);
     action.promise.resolve();
+}
+
+export function *deleteResource(action) {
+    try {
+        let { bucketId, resourceId } = action.data;
+        let url = `${resourcesUrl}/${bucketId}/${resourceId}`;
+        yield call(deleteData, url);
+
+        yield put({type: RESOURCE.DELETE.SUCCESS, payload: {bucketId, resourceId}});
+    } catch(err) {
+        yield put({type: RESOURCE.DELETE.FAILURE, data: err});
+    }
 }
 
 export function *resourceMove(action) {

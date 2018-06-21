@@ -17,7 +17,7 @@ class AddBucketForm extends Component {
         return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>
-                <Field name="bucketName" label="Bucket Name" placeholder="bucket" margin="normal" component={renderTextField} type="text" />
+                <Field autoFocus name="bucketName" label="Bucket Name" placeholder="bucket" margin="normal" component={renderTextField} type="text" />
             </div>
             <div>
                 <Button margin="normal" type="submit">SUBMIT</Button>

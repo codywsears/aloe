@@ -1,4 +1,4 @@
-import { RESOURCE, SUCCESS, CREATE, REQUEST, FETCH  } from '../actions'
+import { RESOURCE, SUCCESS, CREATE, REQUEST, FETCH, BUCKET, DELETE  } from '../actions'
 import { reorder, move } from '../../utils/dragAndDropUtils';
 // shape of resources store
 // const initialResources = {
@@ -29,6 +29,19 @@ export function resources(state = initialResources, action) {
                 ...state,
                 ...action.payload
             };
+        case RESOURCE[DELETE][SUCCESS]:
+            let resId = action.payload.resourceId;
+            let idBucket = action.payload.bucketId;
+            delete state[idBucket][resId];
+            return {
+                ...state
+            }
+        case BUCKET[DELETE][SUCCESS]:
+            let delId = action.payload.bucketId;
+            delete state[delId];
+            return {
+                ...state
+            }
         case 'BUCKET_REORDER':
             let { bucketId, reorderResult} = action.data;
             return {
