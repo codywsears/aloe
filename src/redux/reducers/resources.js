@@ -13,11 +13,17 @@ const initialResources = {};
  */
 export function resources(state = initialResources, action) {
     switch(action.type) {
-        // case RESOURCE[CREATE][REQUEST]: 
-        //     return {
-        //         [action.id]: {loading: true, error: null, resources: []},
-        //         ...state
-        //     };
+        case RESOURCE[CREATE][SUCCESS]: 
+            let resourceId = Object.keys(action.payload)[0];
+            let { originalBucketId } = action.payload[resourceId];
+            delete state[originalBucketId].temp;
+            return {
+                ...state,
+                [originalBucketId]: { 
+                    ...state[originalBucketId],
+                    ...action.payload
+                 }
+            };
         case RESOURCE[FETCH][SUCCESS]:
             return {
                 ...state,
@@ -35,6 +41,21 @@ export function resources(state = initialResources, action) {
                 ...state,
                 [sourceBucketId]: { ...result[sourceBucketId] },
                 [destBucketId]: { ...result[destBucketId] }
+            }
+        case 'CREATE_TEMP_RESOURCE':
+            let buckId = action.data.bucketId;
+            return {
+                ...state,
+                [buckId]: {
+                    ...state[buckId],
+                    temp: {id: 'temp', name: ''}
+                }
+            }
+        case 'DELETE_TEMP_RESOURCE':
+            let tempBuckId = action.data.bucketId;
+            delete state[tempBuckId].temp;
+            return {
+                ...state
             }
         default:
             return state;

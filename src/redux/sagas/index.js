@@ -1,7 +1,7 @@
 import { takeEvery, call, put, all } from 'redux-saga/effects';
 import { BUCKET, RESOURCE } from '../actions';
 import { getBuckets, createBucket } from './buckets';
-import { getResources, resourceMove, resourceReorder } from './resources';
+import { getResources, resourceMove, resourceReorder, createResource } from './resources';
 
 // API calls
 function get(url) {
@@ -57,6 +57,7 @@ export default function *rootSaga() {
         takeEvery(BUCKET.CREATE.REQUEST, createBucket),
         takeEvery(RESOURCE.FETCH.REQUEST, getResources),
         takeEvery('RESOURCE_MOVE', resourceMove),
-        takeEvery('BUCKET_REORDER', resourceReorder)
+        takeEvery('BUCKET_REORDER', resourceReorder),
+        takeEvery(RESOURCE.CREATE.REQUEST, createResource)
     ])
 }

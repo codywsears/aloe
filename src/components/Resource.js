@@ -1,31 +1,20 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { withStyles } from '@material-ui/core/styles';
-import { grid } from '../utils/dragAndDropUtils';
+import { resourceStyles } from '../utils/reactStyles';
 import Typography from '@material-ui/core/Typography';
 
-const styles = theme => {
-    let itemStyle = {
-        // some basic styles to make the items look a bit nicer
-        userSelect: 'none',
-        padding: grid * 2,
-        borderRadius: "10px",
-        margin: `0 0 ${grid}px 0`
-    }
+class Resource extends React.Component {
+    getBackgroundStyle = (isDragging) => {
+        let { colorObj } = this.props;
 
-    return {
-        isDragging: {
-            ...itemStyle,
-            background: theme.palette.secondary.light
-        },
-        notDragging: {
-            ...itemStyle,
-            background: theme.palette.secondary.main
+        let color = isDragging ? colorObj[900] : colorObj[500];
+
+        return {
+            background: color
         }
     }
-}
 
-class Resource extends React.Component {
     render() { 
         let { name, index, id, classes } = this.props;
         return (
@@ -38,8 +27,9 @@ class Resource extends React.Component {
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    className={snapshot.isDragging ? classes.isDragging : classes.notDragging}
+                    className={classes.resource}
                     style={{
+                        ...this.getBackgroundStyle(snapshot.isDragging),
                         ...provided.draggableProps.style
                     }}>
                     <Typography variant="body2">{name}</Typography>
@@ -50,4 +40,4 @@ class Resource extends React.Component {
     }
 }
  
-export default withStyles(styles)(Resource);
+export default withStyles(resourceStyles)(Resource);

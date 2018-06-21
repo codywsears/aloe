@@ -33,6 +33,18 @@ export function getResourcesAction(bucketId) {
     return {type: RESOURCE[FETCH][REQUEST], data: {bucketId}};
 }
 
+export function createResourceAction(bucketId, resourceName, resolve, reject) {
+    return {type: RESOURCE[CREATE][REQUEST], data: {bucketId, resourceName}, promise: {resolve, reject}};
+}
+
+export function createTemporaryResourceAction(bucketId) {
+    return {type: 'CREATE_TEMP_RESOURCE', data: {bucketId}};
+}
+
+export function deleteTempResourceAction(bucketId) {
+    return {type: 'DELETE_TEMP_RESOURCE', data: {bucketId}};
+}
+
 export function reorderBucketAction(bucketId, reorderResult) {
     return {
         type: 'BUCKET_REORDER',
@@ -57,5 +69,24 @@ export function moveResourceAction(result, sourceBucketId, destBucketId) {
 export function toggleAddBucketModal() {
     return {
         type: 'TOGGLE_ADDBUCKET_MODAL'
+    }
+}
+
+export function toggleAddResourceModal(bucketId) {
+    return {
+        type: 'TOGGLE_ADDRESOURCE_MODAL',
+        data: {
+            bucketId
+        }
+    }
+}
+
+export function addBucketColor(color, colorObj) {
+    return {
+        type: 'ADD_BUCKET_COLOR',
+        data: {
+            color,
+            colorObj
+        }
     }
 }

@@ -11,13 +11,13 @@ const styles = theme => ({
     }
 })
 
-class AddBucketForm extends Component {
+class AddResourceForm extends Component {
     render() { 
         let { handleSubmit, onSubmit, classes } = this.props;
         return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>
-                <Field name="bucketName" label="Bucket Name" placeholder="bucket" margin="normal" component={renderTextField} type="text" />
+                <Field name="resourceName" label="Resource Name" placeholder="resource" margin="normal" component={renderTextField} type="text" />
             </div>
             <div>
                 <Button margin="normal" type="submit">SUBMIT</Button>
@@ -26,8 +26,8 @@ class AddBucketForm extends Component {
     }
 }
 
-AddBucketForm = reduxForm({
-    form: 'addBucketForm'
-})(AddBucketForm);
+AddResourceForm = reduxForm({
+    form: 'addResourceForm'
+})(AddResourceForm);
 
-export default withStyles(styles)(AddBucketForm);
+export default withStyles(styles)(AddResourceForm);

@@ -1,5 +1,5 @@
 import { API_URL_BASE } from '../../../api';
-import { fetchHelper, setHelper } from '../index';
+import { fetchHelper, setHelper, createHelper } from '../index';
 import { RESOURCE } from '../../actions';
 
 const resourcesUrl = `${API_URL_BASE}/resources`;
@@ -13,7 +13,11 @@ export function *getResources(action) {
 }
 
 export function *createResource(action) {
-
+    let bucketId = action.data.bucketId;
+    let url = `${resourcesUrl}/${bucketId}`;
+    let toCreate = {name: action.data.resourceName, originalBucketId: bucketId};
+    yield createHelper(action, RESOURCE, url, toCreate);
+    action.promise.resolve();
 }
 
 export function *resourceMove(action) {
