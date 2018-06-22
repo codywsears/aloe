@@ -1,7 +1,8 @@
 import { takeEvery, call, put, all } from 'redux-saga/effects';
-import { BUCKET, RESOURCE } from '../actions';
+import { BUCKET, RESOURCE, TRIP } from '../actions';
 import { getBuckets, createBucket, deleteBucket } from './buckets';
 import { getResources, resourceMove, resourceReorder, createResource, deleteResource } from './resources';
+import { createTrip, getTrip } from './trips';
 
 // API calls
 function get(url) {
@@ -50,6 +51,7 @@ export function *createHelper(action, type, createUrl, toCreate) {
         const result = yield call(create, createUrl, toCreate);
 
         yield put({type: type.CREATE.SUCCESS, payload: {[result.id]: result}});
+        return result;
     } catch (err) {
         yield put({type: type.CREATE.FAILURE})
     }
@@ -64,6 +66,8 @@ export default function *rootSaga() {
         takeEvery('BUCKET_REORDER', resourceReorder),
         takeEvery(RESOURCE.CREATE.REQUEST, createResource),
         takeEvery(BUCKET.DELETE.REQUEST, deleteBucket),
-        takeEvery(RESOURCE.DELETE.REQUEST, deleteResource)
+        takeEvery(RESOURCE.DELETE.REQUEST, deleteResource),
+        takeEvery(TRIP.CREATE.REQUEST, createTrip),
+        takeEvery(TRIP.FETCH.REQUEST, getTrip)
     ])
 }

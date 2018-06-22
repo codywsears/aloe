@@ -20,13 +20,14 @@ function createRequestTypes(base) {
 //Create action name constants (i.e. BUCKET_FETCH_SUCCESS)
 export const BUCKET = createRequestTypes('BUCKET');
 export const RESOURCE = createRequestTypes('RESOURCE');
+export const TRIP = createRequestTypes('TRIP');
 
 export function getBucketsAction(tripId) {
     return {type: BUCKET[FETCH][REQUEST], data: {tripId}};
 }
 
-export function createBucketAction(tripId, bucketName, color, resolve, reject) {
-    return {type: BUCKET[CREATE][REQUEST], data: {tripId, bucketName, color}, promise: {resolve, reject}};
+export function createBucketAction(tripId, bucketName, color, freeBucket, resolve = () => {}, reject = () => {}) {
+    return {type: BUCKET[CREATE][REQUEST], data: {tripId, bucketName, color, freeBucket}, promise: {resolve, reject}};
 }
 
 export function deleteBucketAction(tripId, bucketId, extraResourcesToDelete) {
@@ -70,6 +71,30 @@ export function moveResourceAction(result, sourceBucketId, destBucketId) {
             sourceBucketId,
             destBucketId,
             result
+        }
+    }
+}
+
+// TRIP
+
+export function createTripAction(tripName, resolve, reject) {
+    return {
+        type: TRIP[CREATE][REQUEST],
+        data: {
+            tripName
+        },
+        promise: {
+            resolve,
+            reject
+        }
+    }
+}
+
+export function getTripAction(tripId) {
+    return {
+        type: TRIP[FETCH][REQUEST],
+        data: {
+            tripId
         }
     }
 }

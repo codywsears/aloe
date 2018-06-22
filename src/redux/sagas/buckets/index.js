@@ -13,7 +13,7 @@ export function *getBuckets(action) {
 
 export function *createBucket(action) {
     let url = `${bucketsUrl}/${action.data.tripId}`;
-    let toCreate = {name: action.data.bucketName, color: action.data.color};
+    let toCreate = {name: action.data.bucketName, color: action.data.color, freeBucket: action.data.freeBucket};
     yield createHelper(action, BUCKET, url, toCreate);
     action.promise.resolve();
 }

@@ -57,6 +57,18 @@ class Bucket extends Component {
         }
     }
 
+    getDroppableStyle = (isDraggingOver) => {
+        let { colorObj } = this.props;
+        let initStyle = {
+            minHeight: '80px'
+        }
+
+        if (isDraggingOver) {
+            initStyle.background = colorObj[900];
+        }
+        return initStyle;
+    }
+
     render() {
         let { colorObj, name, id, classes, createTempResource, deleteBucket, tripId, includeActions } = this.props;
 
@@ -75,7 +87,7 @@ class Bucket extends Component {
                             <div 
                                 ref={provided.innerRef}
                                 className={classes.listStyle}
-                                style={snapshot.isDraggingOver ? {background: colorObj[900]} : {}}>
+                                style={this.getDroppableStyle(snapshot.isDraggingOver)}>
                                 {this.props.children}
                             </div>
                             )}

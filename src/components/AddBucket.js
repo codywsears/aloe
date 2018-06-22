@@ -25,7 +25,7 @@ class AddBucket extends Component {
 
         //return a promise as work around for redux-forms
         return new Promise((resolve, reject) => {
-            createBucket(tripId, values.bucketName, color, resolve, reject);
+            createBucket(tripId, values.bucketName, color, false, resolve, reject);
         }).then(() => {this.props.toggleModal()});
     }
 

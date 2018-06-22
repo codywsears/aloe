@@ -66,8 +66,9 @@ class BucketContainer extends Component {
                 <DragDropContext onDragEnd={this.onDragEnd}>
                     {Object.keys(buckets).map((bucketKey, idx) => {
                         let bucket = buckets[bucketKey];
+                        let includeActions = !bucket.freeBucket;
                         return (
-                            <Bucket key={idx} id={bucket.id} name={bucket.name} color={bucket.color} tripId={tripId} includeActions>
+                            <Bucket key={idx} id={bucket.id} name={bucket.name} color={bucket.color} tripId={tripId} includeActions={includeActions}>
                                 {
                                     resources && resources[bucket.id] && Object.keys(resources[bucket.id]).map((resourceKey, index) => {
                                         let resource = resources[bucket.id][resourceKey];
@@ -88,9 +89,7 @@ class BucketContainer extends Component {
                             </Bucket>
                         )}
                     )}
-                    <Bucket key={deleteBucketKey} id={deleteBucketKey} name='Delete Resource' color='brown' tripId={tripId}>
-                        <div style={{minHeight: '100px'}}/>
-                    </Bucket>
+                    <Bucket key={deleteBucketKey} id={deleteBucketKey} name='Delete Resource' color='brown' tripId={tripId} />
                 </DragDropContext>
             </div>
           );
